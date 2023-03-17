@@ -2,9 +2,10 @@
   "name": "techblog",
   "version": "1.0.0",
   "description": "An app for making posts about tech",
-  "main": "develop/server.js",
+  "main": "Develop/server.js",
   "scripts": {
-    "start": "node develop/index.js"
+    "start": "node Develop/server.js",
+    "seed": "node Develop/seeds/seed.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
