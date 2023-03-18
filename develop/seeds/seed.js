@@ -16,14 +16,14 @@ const userData = [
 
 const postData = [
   {
-    title: 'Test 1',
-    content: 'First test post here',
-    user_id: 1,
+    title: 'Testing super long titles to make sure not messed up by styling',
+    content: "Also testing super long content in the post to make sure that is wrapping correctly and not accidentally going off screen. Changing the property max width on the div seems to have fixed the issue and made it so there isnt any problems with displaying posts!",
+    userId: 1,
   },
   {
     title: 'Test 2',
-    content: 'Second test post here',
-    user_id: 2,
+    content: 'Second test post here 2',
+    userId: 2,
   },
 ];
 
