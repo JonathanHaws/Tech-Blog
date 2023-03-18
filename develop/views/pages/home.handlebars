@@ -1,0 +1,12 @@
+<main>
+  <h1>TECH BLOG</h1>
+  {{#each posts}}
+    <div class = "posts">
+      <div class = "postInfo"> 
+        <h2>{{title}}</h2>
+        <p>Posted by {{author}} on {{date}}</p>
+      </div>
+      <p>{{content}}</p>
+    </div>
+  {{/each}}
+</main>

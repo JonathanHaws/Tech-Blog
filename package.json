@@ -4,7 +4,8 @@
   "description": "An app for making posts about tech",
   "main": "Develop/server.js",
   "scripts": {
-    "start": "node Develop/server.js",
+    "start": "nodemon Develop/server.js",
+    "deploy": "node Develop/server.js",
     "seed": "node Develop/seeds/seed.js"
   },
   "dependencies": {
@@ -13,9 +14,9 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-handlebars": "^7.0.2",
+    "express-session": "^1.17.3",
     "mysql2": "^3.2.0",
-    "sequelize": "^6.29.3",
-    "session": "^0.1.0"
+    "sequelize": "^6.29.3"
   },
   "author": "Jonathan Haws",
   "license": "MIT"
