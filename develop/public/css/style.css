@@ -1,8 +1,8 @@
 :root {
   --color1:#454545;
   --color2:#cbcbcb;
-  --color3:#5f5d70;
-  --color4:#a5a2cd;
+  --color3:#576b82;
+  --color4:#87afde;
   --width: 
 }
 
@@ -28,6 +28,7 @@ a {
   display:inline-block;
   padding:10px;
   color:var(--color2);
+  text-decoration: none;
 }
 
 a:hover {
@@ -36,6 +37,7 @@ a:hover {
 }
 
 h1 {
+  font-size: larger;
   color: var(--color2);
   background-color: var(--color3);
   border-radius: 10px;
@@ -91,4 +93,38 @@ footer {
 
 #date {
   color: var(--color3);
+}
+
+form {
+
+  margin:20px;
+}
+
+input[type="submit"] {
+  background-color: var(--color2);
+  border-radius: 10px;
+  color: var(--color1);
+  border: 0px;
+  padding:5px;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--color3);
+  color: var(--color2);
+}
+
+input[type="text"],
+input[type="password"] {
+  background-color: var(--color2);
+  border-radius: 10px;
+  color: var(--color3);
+  border: 0px;
+  padding:5px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: var(--color2);
+  box-shadow: 0 0 5px var(--color1);
+  outline: none;
 }
