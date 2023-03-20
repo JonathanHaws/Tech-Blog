@@ -1,12 +1,19 @@
-<main>
-  <h1>TECH BLOG</h1>
-  {{#each posts}}
-    <div class = "posts">
-      <div class = "postInfo"> 
-        <h2>{{title}}</h2>
-        <p id = "date">Posted by {{author}} on {{date}}</p>
+
+<h1>TECH BLOG</h1>
+
+{{#if user}}
+  <form method="post" action="/posts">
+    <div class="posts">
+      <div class="postInfo">
+        <h2>New Post</h2>
+        <input type="text" id="title" name="title" required><br>
       </div>
-      <p>{{content}}</p>
+      <textarea id="content" name="content" required></textarea><br>
+      <button type="submit"> Post </button>
     </div>
-  {{/each}}
-</main>
+  </form>
+{{/if}}
+
+{{#each posts}}
+  {{> post}}
+{{/each}}

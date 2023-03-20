@@ -1,5 +1,5 @@
 const sequelize = require('../config/connection');
-const { User, Post } = require('../models');
+const { User, Post , Comment } = require('../models');
 
 const userData = [
   {
@@ -25,6 +25,34 @@ const postData = [
   },
 ];
 
+const commentData = [
+  {
+    content: 'This is testing to see how long a comment has to be before it starts messing up the page',
+    userId: 1,
+    postId: 1,
+  },
+  {
+    content: 'This is a test comment to test how multiple comments on one post will work',
+    userId: 1,
+    postId: 1,
+  },
+  {
+    content: 'This is the third comment on one post to verify working',
+    userId: 1,
+    postId: 1,
+  },
+  {
+    content: 'Tescomment2',
+    userId: 2,
+    postId: 1,
+  },
+  {
+    content: 'Third comment',
+    userId: 1,
+    postId: 2,
+  },
+];
+
 const seedDatabase = async () => {
   await sequelize.sync({ force: true });
 
@@ -36,6 +64,10 @@ const seedDatabase = async () => {
 
   for (const post of postData) {
     await Post.create(post);
+  }
+
+  for (const comment of commentData) {
+    await Comment.create(comment);
   }
 
   process.exit(0);

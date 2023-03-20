@@ -1,44 +1,59 @@
+const { User, Post, Comment } = require('../models');
 const express = require('express');
 const router = express.Router();
-const { User, Post } = require('../models');
+const getPosts = require('./getPosts');
 
-router.get('/', async (req, res) => {
-    const postData = await Post.findAll({ include: [{ model: User, attributes: ['username'],},],});
-    const posts = postData.map((post) => {
-        return {
-            ...post.get({ plain: true }),
-            date: new Date(post.createdAt).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric'}),
-            author: post.user.username
-        }
-    }); //res.json (posts);
+router.get('/',        async (req, res) => { const posts = await getPosts(req); res.render('pages/home', { title: 'Home', posts, user: req.session?.user?.username });});
 
-    res.render('pages/home', { title: 'Home', posts, user: req.session && req.session.user ? req.session.user.username : null });
+router.get('/login',   async (req, res) => { res.render('pages/login');});
+
+router.get('/signup',  async (req, res) => { res.render('pages/signup'); });
+
+router.get('/logout',  async (req, res) => { await req.session?.destroy(); res.redirect('/'); });
+
+router.post('/posts',  async (req, res) => { 
+    if(!req.session?.user) { return res.redirect('/login'); }
+    const post = await Post.create({ title: req.body.title, content: req.body.content, userId: req.session?.user?.id }); 
+    res.redirect('/');
 });
 
-router.get('/login', async (req, res) => { res.render('pages/login'); });
-router.get('/logout', (req, res) => req.session ? req.session.destroy(() => res.redirect('/login')) : res.redirect('/login'));
-router.get('/signup', async (req, res) => { res.render('pages/signup'); });
-
-router.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-    const user = await User.findOne({ where: { username } });
-    if (!user) { return res.status(401).render('pages/login', { error: 'Wrong username or password.' }); }
-    const passwordMatch = await user.comparePassword(password);
-    if (!passwordMatch) { return res.status(401).render('pages/login', { error: 'Wrong username or password.' }); }
-    req.session.user = user;
+router.post('/login',  async (req, res) => {
+    const user = await User.findOne({ where: { username: req.body.username } });
+    if (!user || !(await user.comparePassword(req.body.password))) {
+      return res.status(401).render('pages/login', { error: 'Wrong username or password.' });
+    }
+    req.session.user = user; 
     res.redirect('/');
 });
 
 router.post('/signup', async (req, res) => {
     const { username, password } = req.body;
-    const existingUser = await User.findOne({ where: { username } });
-    if (existingUser) { return res.status(400).render('pages/signup', { error: 'Username already exists.' });}
+    if (await User.findOne({ where: { username } })) {
+      return res.render('pages/signup', { error: 'Username already exists.' });
+    }
     const user = await User.create({ username, password });
     req.session.user = user;
     res.redirect('/');
 });
 
+router.delete('/posts/:id', async (req, res) => {
+    const post = await Post.findByPk(req.params.id);
+    if (req.session?.user && post && post.userId === req.session.user.id) { await post.destroy();}
+    res.redirect(303, '/');
+});
 
+router.delete('/comments/:id', async (req, res) => {
+    const comment = await Comment.findByPk(req.params.id); //console.log(comment)
+    if (req.session?.user && comment && comment.userId === req.session.user.id) { await comment.destroy();}
+    res.redirect(303, '/');
+});
 
+router.post('/comments', async (req, res) => { console.log(req.body);
+    if(!req.session?.user) { return res.redirect('/login'); }
+    await Comment.create({ content: req.body.comment, userId: req.session?.user?.id, postId: req.body.id});
+    res.redirect('/');
+});
+
+// Any more routes defiently need to seperate these into different modules
 
 module.exports = router;

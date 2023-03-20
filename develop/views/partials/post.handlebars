@@ -1,0 +1,39 @@
+<div class="posts">
+  <div class="postInfo">
+    <h2>{{title}} <span class="authored"> by {{author}} on {{date}}</span></h2>
+    {{#if canDelete}}
+      <button type="button" onclick="fetch('/posts/{{id}}', { method:'DELETE'}).then(() => { window.location.href = '/' })">X</button>
+    {{/if}}
+    <button class="toggleButton" type="button" onclick="toggleContent(this)">V</button>
+  </div>
+  <div class="postContent hidden">
+    <p>{{content}}</p>
+    {{#if comments}}
+      {{#each comments}}
+          <div class="postInfo">
+            <h2> {{author}} on {{date}}</span></h2>
+            {{#if canDelete}}
+              <button type="button" onclick="fetch('/comments/{{id}}', { method:'DELETE'}).then(() => { window.location.href = '/' })">X</button>
+            {{/if}}
+            </p>
+          </div>
+          <p>{{content}}</p>
+      {{/each}}
+    {{/if}}
+    {{#if user}}
+      <form method="post" action="/comments">
+        <input type="hidden" name="id" value="{{id}}">
+        <textarea id="comment" name="comment" required></textarea> <br>
+        <button type="submit"> Comment </button>
+      </form>
+    {{/if}}
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleContent(button) {
+    const contentDiv = button.closest('.posts').querySelector('.postContent');
+    contentDiv.classList.toggle('hidden');
+  }
+</script>
