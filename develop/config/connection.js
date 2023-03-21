@@ -12,3 +12,4 @@ const sequelize = process.env.JAWSDATABASE_URL
     });
 
 module.exports = sequelize;
+
