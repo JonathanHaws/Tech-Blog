@@ -4,8 +4,7 @@
   "description": "An app for making posts about tech",
   "main": "Develop/server.js",
   "scripts": {
-    "start": "nodemon Develop/server.js",
-    "deploy": "node Develop/server.js",
+    "start": "node Develop/server.js",
     "seed": "node Develop/seeds/seed.js"
   },
   "dependencies": {
