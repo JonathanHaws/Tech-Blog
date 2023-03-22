@@ -4,6 +4,7 @@
   "description": "An app for making posts about tech",
   "main": "develop/server.js",
   "scripts": {
+    "local": "nodemon develop/server.js",
     "start": "node develop/server.js",
     "seed": "node develop/seeds/seed.js"
   },

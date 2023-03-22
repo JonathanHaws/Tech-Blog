@@ -135,5 +135,6 @@ button {
 
 input[type="submit"]:hover, 
 button:hover {
-  background-color: var(--color4);
+  background-color: var(--color2);
+  color: var(--color1);
 }

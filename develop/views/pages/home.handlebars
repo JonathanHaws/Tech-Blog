@@ -1,18 +1,7 @@
 
 <h1>TECH BLOG</h1>
 
-{{#if user}}
-  <form method="post" action="/posts">
-    <div class="posts">
-      <div class="postInfo">
-        <h2>New Post</h2>
-        <input type="text" id="title" name="title" required><br>
-      </div>
-      <textarea id="content" name="content" required></textarea><br>
-      <button type="submit"> Post </button>
-    </div>
-  </form>
-{{/if}}
+{{> newpost}}
 
 {{#each posts}}
   {{> post}}
