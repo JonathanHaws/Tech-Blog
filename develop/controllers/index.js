@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const getPosts = require('./getPosts');
 
-router.get('/',        async (req, res) => { const posts = await getPosts(req); res.render('pages/home', { title: 'Home', posts, user: req.session?.user?.username });});
+router.get('/', async (req, res) => { const posts = await getPosts(req); res.render('pages/home', { title: 'Home', posts, user: req.session?.user?.username });});
 
 router.get('/dashboard', async (req, res) => {
     if(!req.session?.user) { return res.redirect('/login'); }
@@ -20,7 +20,7 @@ router.get('/logout',  async (req, res) => { await req.session?.destroy(); res.r
 router.post('/posts',  async (req, res) => { 
     if(!req.session?.user) { return res.redirect('/login'); }
     const post = await Post.create({ title: req.body.title, content: req.body.content, userId: req.session?.user?.id }); 
-    res.redirect('/');
+    res.status(200).send();
 });
 
 router.post('/login',  async (req, res) => {
@@ -51,16 +51,13 @@ router.delete('/posts/:id', async (req, res) => {
 router.delete('/comments/:id', async (req, res) => {
     const comment = await Comment.findByPk(req.params.id); //console.log(comment)
     if (req.session?.user && comment && comment.userId === req.session.user.id) { await comment.destroy();}
-    res.redirect(303, '/');
+    res.status(200).send();
 });
 
-router.post('/comments', async (req, res) => { //console.log(req.body);
+router.post('/comments', async (req, res) => { console.log(req.body); 
     if(!req.session?.user) { return res.redirect('/login'); }
     await Comment.create({ content: req.body.comment, userId: req.session?.user?.id, postId: req.body.id});
-    res.redirect('/');
+    res.status(200).send();
 });
-
-// Any more routes defiently need to seperate these into different modules
-
 
 module.exports = router;

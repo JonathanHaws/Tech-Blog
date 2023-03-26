@@ -3,7 +3,7 @@
 
 <div class="posts" >
   <div class="postInfo">
-    <h2>{{title}} <span class="authored"> by {{author}} on {{date}}</span> {{id}} </h2>
+    <h2>{{title}} <span class="authored"> by {{author}} on {{date}}</span></h2>
     {{#if canDelete}}
       <button type="button" onclick="fetch('/posts/{{id}}', { method: 'DELETE' }).then(() => this.closest('.posts').remove())">X</button>
     {{/if}}
