@@ -1,9 +1,13 @@
 const { User, Post, Comment } = require('../models');
 
-async function getPosts(req) {
-    let posts = await Post.findAll({ include: [{ model: User, attributes: ['username'] },], raw: true,});
+async function getPosts(req, userId) {
+    let posts = [];
+    if(userId) { 
+        posts = await Post.findAll({ where: { userId: userId }, include: [{ model: User, attributes: ['username'] },], raw: true,});
+    } else { 
+        posts = await Post.findAll({ include: [{ model: User, attributes: ['username'] },], raw: true,});
+    }
     
-
     posts.map(async (post) => { 
         post.user = req.session?.user;
         post.author = (await User.findByPk(post.userId)).username;

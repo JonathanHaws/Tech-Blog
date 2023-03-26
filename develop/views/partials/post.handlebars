@@ -1,10 +1,13 @@
+
+
+
 <div class="posts" >
   <div class="postInfo">
-    <h2>{{title}} <span class="authored"> by {{author}} on {{date}}</span></h2>
+    <h2>{{title}} <span class="authored"> by {{author}} on {{date}}</span> {{id}} </h2>
     {{#if canDelete}}
       <button type="button" onclick="fetch('/posts/{{id}}', { method: 'DELETE' }).then(() => this.closest('.posts').remove())">X</button>
     {{/if}}
-    <button class="toggleButton" type="button" onclick="toggleContent(this)">V</button>
+    <button class="toggleButton" type="button" data-post-id="{{id}}" onclick="toggleContent(this)">V</button>
   </div>
   <div class="postContent hidden">
     <p>{{content}}</p>
@@ -20,7 +23,10 @@
 
 <script>
   function toggleContent(button) {
+    let id = button.dataset.postId;
     const contentDiv = button.closest('.posts').querySelector('.postContent');
     contentDiv.classList.toggle('hidden');
+    if (contentDiv.classList.contains('hidden')) { localStorage.removeItem(id);
+    } else { localStorage.setItem(id, 'expanded'); }
   }
 </script>

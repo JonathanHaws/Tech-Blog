@@ -5,6 +5,12 @@ const getPosts = require('./getPosts');
 
 router.get('/',        async (req, res) => { const posts = await getPosts(req); res.render('pages/home', { title: 'Home', posts, user: req.session?.user?.username });});
 
+router.get('/dashboard', async (req, res) => {
+    if(!req.session?.user) { return res.redirect('/login'); }
+    const posts = await getPosts(req, req.session?.user?.id);
+    res.render('pages/dashboard', { title: 'DASHBOARD', posts, user: req.session?.user?.username });
+});
+
 router.get('/login',   async (req, res) => { res.render('pages/login');});
 
 router.get('/signup',  async (req, res) => { res.render('pages/signup'); });
@@ -48,12 +54,13 @@ router.delete('/comments/:id', async (req, res) => {
     res.redirect(303, '/');
 });
 
-router.post('/comments', async (req, res) => { console.log(req.body);
+router.post('/comments', async (req, res) => { //console.log(req.body);
     if(!req.session?.user) { return res.redirect('/login'); }
     await Comment.create({ content: req.body.comment, userId: req.session?.user?.id, postId: req.body.id});
     res.redirect('/');
 });
 
 // Any more routes defiently need to seperate these into different modules
+
 
 module.exports = router;
