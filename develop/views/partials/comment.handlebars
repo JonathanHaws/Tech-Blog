@@ -1,6 +1,6 @@
 <div class="comment">
     <div class="postInfo">
-        <h2> {{author}} on {{date}}</span> {{id}}</h2>
+        <h2> {{author}} on {{date}}</span></h2>
             {{#if canDelete}}
                 <button type="button" onclick="fetch('/comments/{{id}}', { method: 'DELETE' }).then(() => this.closest('.comment').remove())">X</button>
             {{/if}}
